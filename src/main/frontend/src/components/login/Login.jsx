@@ -11,15 +11,22 @@ export const Login = () => {
     const oauthLogin = [
         {
             name: 'google',
-            icon: 'images/google.png'
+            icon: 'images/google.png',
+            href: 'https://accounts.google.com/o/oauth2/v2/auth' +
+                '?client_id=' + process.env["GOOGLE_CLIENT_ID "] +
+                '&redirect_uri=' + process.env["GOOGLE_REDIRECT_URI "] +
+                '&response_type=' + process.env["RESPONSE_TYPE "] +
+                '&scope=' + process.env["GOOGLE_SCOPE "]
         },
         {
             name: 'kakao',
-            icon: 'images/kakao.png'
+            icon: 'images/kakao.png',
+            href: 'https://kauth.kakao.com/oauth/authorize'
         },
         {
             name: 'naver',
-            icon: 'images/naver.png'
+            icon: 'images/naver.png',
+            href: 'https://nid.naver.com/oauth2.0/authorize'
         }
     ];
 
@@ -71,12 +78,11 @@ export const Login = () => {
                         </div>
                         <div className={'flex justify-center gap-3'}>
                             {oauthLogin.map(element => (
-                                <div>
+                                <a href={`${element.href}`}>
                                     <img key={`${element.name}`} alt={`${element.name}`} src={`${element.icon}`}
                                          className={'w-[40px] h-[40px] cursor-pointer'}
-                                         onClick={() => {handleOauthLogin(element.name)}}
                                     />
-                                </div>
+                                </a>
                             ))}
                         </div>
                     </div>

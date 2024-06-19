@@ -1,9 +1,17 @@
 
 // Login 요청
+import axios from "axios";
+
 export const oauth2Login = (id) => {
     switch (id) {
         case 'google' :
-            console.log(id);
+            axios.get('/oauth2/authorization/google')
+                .then(response => {
+                    console.log(response);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
             break;
         case 'kakao' :
             console.log(id);
