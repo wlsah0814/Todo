@@ -5,6 +5,7 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+
 ### STS ###
 .apt_generated
 .classpath
@@ -35,3 +36,8 @@ out/
 
 ### VS Code ###
 .vscode/
+
+
+### spring 설정 파일 + react 환경변수 ###
+src/main/frontend/.env
+src/main/resources/application-oauth.yml
