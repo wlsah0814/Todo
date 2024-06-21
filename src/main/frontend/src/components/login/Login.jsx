@@ -11,29 +11,17 @@ export const Login = () => {
         {
             name: 'google',
             icon: 'images/google.png',
-            // href: 'https://accounts.google.com/o/oauth2/v2/auth' +
-            //     '?client_id=' + process.env.REACT_APP_GOOGLE_CLIENT_ID +
-            //     '&redirect_uri=' + process.env.REACT_APP_GOOGLE_REDIRECT_URI+
-            //     '&response_type=' + process.env.REACT_APP_RESPONSE_TYPE +
-            //     '&scope=' + process.env.REACT_APP_GOOGLE_SCOPE
-            hrefL: 'http://localhost:8084/oauth2/authrization/google'
+            href: 'http://localhost:8084/oauth2/authorization/google'
         },
         {
             name: 'kakao',
             icon: 'images/kakao.png',
-            href: 'https://kauth.kakao.com/oauth/authorize' +
-                '?client_id=' + process.env.REACT_APP_KAKAO_CLIENT_ID +
-                '&redirect_uri=' + process.env.REACT_APP_KAKAO_REDIRECT_URI +
-                '&response_type=' + process.env.REACT_APP_RESPONSE_TYPE
+            href: 'http://localhost:8084/oauth2/authorization/kakao'
         },
         {
             name: 'naver',
             icon: 'images/naver.png',
-            href: 'https://nid.naver.com/oauth2.0/authorize' +
-                '?client_id=' + process.env.REACT_APP_NAVER_CLIENT_ID +
-                '&redirect_uri=' + process.env.REACT_APP_NAVER_REDIRECT_URI +
-                '&state=' + '1234' +
-                '&response_type=' + process.env.REACT_APP_RESPONSE_TYPE
+            href: 'http://localhost:8084/oauth2/authorization/naver'
         }
     ];
 

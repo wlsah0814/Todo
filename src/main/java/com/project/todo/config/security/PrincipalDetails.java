@@ -102,4 +102,10 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     public String getName() {
         return attributeKey;
     }
+
+    // ====================================== 추가 ======================================
+
+    public User getUser() {
+        return user;
+    }
 }

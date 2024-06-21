@@ -6,7 +6,7 @@ import com.project.todo.entity.User;
 import com.project.todo.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -19,10 +19,11 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class Oauth2UserService extends DefaultOAuth2UserService {
 
     private final UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     @Override
@@ -33,27 +34,26 @@ public class Oauth2UserService extends DefaultOAuth2UserService {
         String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails()
                 .getUserInfoEndpoint().getUserNameAttributeName();
 
-        OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfo.of(registrationId, attribute);
+        log.info("OAuth Attribute={}", attribute);
+        log.info("Provider={}", registrationId);
 
-        User user = checkUserOrSave(oAuth2UserInfo);
+        OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfo.of(registrationId, attribute);
+        User user = checkUserOrSave(oAuth2UserInfo, registrationId);
 
         return new PrincipalDetails(user, attribute, userNameAttributeName);
     }
 
-    private User checkUserOrSave(OAuth2UserInfo oAuth2UserInfo) {
-        User user = userRepository.findByEmail(oAuth2UserInfo.email());
-        if(user == null) {
-            return userRepository.save(
-                    User.builder()
-                            .username(oAuth2UserInfo.name())
-                            .password(passwordEncoder.encode("1234"))
-                            .email(oAuth2UserInfo.email())
-                            .role("ROLE_USER")
-                            .provider(oAuth2UserInfo.provider())
-                            .providerId(oAuth2UserInfo.providerId())
-                            .build()
-            );
-        }
-        return user;
+    private User checkUserOrSave(OAuth2UserInfo oAuth2UserInfo, String registrationId) {
+        Optional<User> user = userRepository.findByEmail(oAuth2UserInfo.email());
+        return user.orElseGet(() -> userRepository.save(
+                User.builder()
+                        .username(oAuth2UserInfo.name())
+                        .password(passwordEncoder.encode("1234"))
+                        .email(oAuth2UserInfo.email())
+                        .role("ROLE_GUEST")
+                        .provider(oAuth2UserInfo.provider())
+                        .providerId(oAuth2UserInfo.providerId())
+                        .build()
+        ));
     }
 }
