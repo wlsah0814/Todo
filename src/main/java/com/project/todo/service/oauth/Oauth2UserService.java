@@ -1,5 +1,6 @@
 package com.project.todo.service.oauth;
 
+import com.project.todo.config.security.Authority;
 import com.project.todo.config.security.PrincipalDetails;
 import com.project.todo.dto.OAuth2UserInfo;
 import com.project.todo.entity.User;
@@ -50,7 +51,7 @@ public class Oauth2UserService extends DefaultOAuth2UserService {
                         .username(oAuth2UserInfo.name())
                         .password(passwordEncoder.encode("1234"))
                         .email(oAuth2UserInfo.email())
-                        .role("ROLE_GUEST")
+                        .role(Authority.ROLE_GUEST)
                         .provider(oAuth2UserInfo.provider())
                         .providerId(oAuth2UserInfo.providerId())
                         .build()

@@ -1,5 +1,6 @@
 package com.project.todo.entity;
 
+import com.project.todo.config.security.Authority;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,7 +32,8 @@ public class User {
     private String email;
 
     @Column(name = "role")
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Authority role;
 
     @Column(name = "provider")
     private String provider; //oauth 플랫폼명

@@ -24,10 +24,16 @@ export const oauth2Login = (id) => {
 
 // 기본 로그인
 export const defaultLogin = (loginParam) => {
-    console.log(loginParam);
+    return console.log(loginParam);
 }
 
 // 회원가입
-export const register = (registerParam) => {
-    console.log(registerParam);
+export const register = async (registerParam) => {
+    return await axios.post("/user/register", registerParam)
+        .then((response) => {
+            return response.status;
+        })
+        .catch((error) => {
+            return error.data.status;
+        })
 }

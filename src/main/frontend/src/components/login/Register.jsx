@@ -1,16 +1,24 @@
-import React, {useRef} from "react";
+import React, {useState} from "react";
 import {Button, Input} from "antd";
 import {register} from "../../api/LoginApi";
+import {useNavigate} from "react-router-dom";
 
 export const Register = () => {
-    const emailRef = useRef(null);
-    const pwRef = useRef(null);
+    const navigate = useNavigate();
+    const [param, setParam] = useState({email: '', password: ''});
 
-    const userRegister = () => {
-        register({
-            email: emailRef.current.input.value,
-            pw: pwRef.current.input.value
+    const handleSetParam = (evt) => {
+        setParam(prevState => {
+            return {...prevState, [evt.target.name] : evt.target.value}
         });
+    }
+
+
+    const handleSubmit = async () => {
+        const result = await register(param, '/');
+        if(result === 200) {
+            navigate("/");
+        }
     }
 
     return (
@@ -21,13 +29,13 @@ export const Register = () => {
                         <span>: (</span>
                     </div>
                     <div className={'flex flex-col gap-2'}>
-                        <Input key={'email'} type={'text'} placeholder={'이메일'} className={'h-[40px]'} ref={emailRef}/>
-                        <Input key={'password'} type={'text'} placeholder={'비밀번호'} className={'h-[40px]'} ref={pwRef}/>
+                        <Input key={'email'} name={'email'} type={'text'} placeholder={'이메일'} className={'h-[40px]'} onChange={handleSetParam}/>
+                        <Input key={'password'} name={'password'} type={'password'} placeholder={'비밀번호'} className={'h-[40px]'} onChange={handleSetParam}/>
                     </div>
                     <div className={'w-full'}>
                         <Button
                             className={'w-full h-[50px] bg-blue-500 text-white font-bold'}
-                            onClick={() => {userRegister()}}
+                            onClick={handleSubmit}
                         >
                             회원가입
                         </Button>

@@ -3,34 +3,41 @@ import {Button, Input} from "antd";
 import {defaultLogin, oauth2Login} from "../../api/LoginApi";
 import {useNavigate} from "react-router-dom";
 
+const OAUTH_LOGIN = Object.freeze([
+    {
+        name: 'google',
+        icon: 'images/google.png',
+        href: 'http://localhost:8084/oauth2/authorization/google'
+    },
+    {
+        name: 'kakao',
+        icon: 'images/kakao.png',
+        href: 'http://localhost:8084/oauth2/authorization/kakao'
+    },
+    {
+        name: 'naver',
+        icon: 'images/naver.png',
+        href: 'http://localhost:8084/oauth2/authorization/naver'
+    }
+])
+
 export const Login = () => {
-    const emailRef = useRef(null);
-    const pwRef = useRef(null);
     const navigate = useNavigate();
-    const oauthLogin = [
-        {
-            name: 'google',
-            icon: 'images/google.png',
-            href: 'http://localhost:8084/oauth2/authorization/google'
-        },
-        {
-            name: 'kakao',
-            icon: 'images/kakao.png',
-            href: 'http://localhost:8084/oauth2/authorization/kakao'
-        },
-        {
-            name: 'naver',
-            icon: 'images/naver.png',
-            href: 'http://localhost:8084/oauth2/authorization/naver'
-        }
-    ];
+    const [loginParam, setLoginParam] = useState({
+        email: '',
+        password: '',
+    })
+
+    // 로그인 파라미터 set
+    const handleSetLoginParam = (evt) => {
+        setLoginParam(prevState => {
+            return {...prevState, [evt.target.name]: evt.target.value};
+        })
+    }
 
     // 기본 로그인
     const handleLogin = () => {
-        defaultLogin({
-            email: emailRef.current.input.value,
-            pw: pwRef.current.input.value
-        })
+       const result = defaultLogin(loginParam)
     }
 
     return (
@@ -42,13 +49,13 @@ export const Login = () => {
                             <span>: )</span>
                         </div>
                         <div className={'flex flex-col gap-2'}>
-                            <Input key={'email'} type={'text'} placeholder={'이메일'} className={'h-[40px]'} ref={emailRef}/>
-                            <Input key={'password'} type={'text'} placeholder={'비밀번호'} className={'h-[40px]'} ref={pwRef}/>
+                            <Input key={'email'} name={'email'} type={'text'} placeholder={'이메일'} className={'h-[40px]'} onChange={handleSetLoginParam} />
+                            <Input key={'password'} name={'password'} type={'text'} placeholder={'비밀번호'} className={'h-[40px]'} onChange={handleSetLoginParam} />
                         </div>
                         <div className={'w-full'}>
                             <Button
                                 className={'w-full h-[50px] bg-blue-500 text-white font-bold'}
-                                onClick={() => {handleLogin()}}
+                                onClick={handleLogin}
                             >
                                 로그인
                             </Button>
@@ -67,9 +74,9 @@ export const Login = () => {
                             <span>간편 로그인</span>
                         </div>
                         <div className={'flex justify-center gap-3'}>
-                            {oauthLogin.map(element => (
-                                <a href={`${element.href}`}>
-                                    <img key={`${element.name}`} alt={`${element.name}`} src={`${element.icon}`}
+                            {OAUTH_LOGIN.map(element => (
+                                <a href={element.href}>
+                                    <img key={element.name} alt={element.name} src={element.icon}
                                          className={'w-[40px] h-[40px] cursor-pointer'}
                                     />
                                 </a>
