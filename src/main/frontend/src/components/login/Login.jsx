@@ -1,7 +1,8 @@
 import React, {useRef, useState} from "react";
 import {Button, Input} from "antd";
-import {defaultLogin, oauth2Login} from "../../api/LoginApi";
+import {defaultLogin} from "../../api/LoginApi";
 import {useNavigate} from "react-router-dom";
+import {useInput} from "../../hooks/useInput";
 
 const OAUTH_LOGIN = Object.freeze([
     {
@@ -23,21 +24,11 @@ const OAUTH_LOGIN = Object.freeze([
 
 export const Login = () => {
     const navigate = useNavigate();
-    const [loginParam, setLoginParam] = useState({
-        email: '',
-        password: '',
-    })
-
-    // 로그인 파라미터 set
-    const handleSetLoginParam = (evt) => {
-        setLoginParam(prevState => {
-            return {...prevState, [evt.target.name]: evt.target.value};
-        })
-    }
+    const [inputParam, handleSetInputParam] = useInput();
 
     // 기본 로그인
     const handleLogin = () => {
-       const result = defaultLogin(loginParam)
+       const result = defaultLogin(inputParam)
     }
 
     return (
@@ -49,8 +40,8 @@ export const Login = () => {
                             <span>: )</span>
                         </div>
                         <div className={'flex flex-col gap-2'}>
-                            <Input key={'email'} name={'email'} type={'text'} placeholder={'이메일'} className={'h-[40px]'} onChange={handleSetLoginParam} />
-                            <Input key={'password'} name={'password'} type={'text'} placeholder={'비밀번호'} className={'h-[40px]'} onChange={handleSetLoginParam} />
+                            <Input key={'email'} name={'email'} type={'text'} placeholder={'이메일'} className={'h-[40px]'} onChange={handleSetInputParam} />
+                            <Input key={'password'} name={'password'} type={'text'} placeholder={'비밀번호'} className={'h-[40px]'} onChange={handleSetInputParam} />
                         </div>
                         <div className={'w-full'}>
                             <Button

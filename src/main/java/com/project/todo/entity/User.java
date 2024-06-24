@@ -17,8 +17,8 @@ import java.sql.Timestamp;
 @Builder
 public class User {
 
-    @Id //primary key
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //autoincrement
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 

@@ -5,6 +5,7 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {Register} from "./components/login/Register";
 import {LoginFail} from "./components/login/LoginFail";
 import {Home} from "./components/home/Home";
+import {LoginSuccess} from "./components/login/LoginSuccess";
 
 export const App = () => {
   return (
@@ -14,6 +15,7 @@ export const App = () => {
               <Route path={'/home'} element={<Home />}/>
               <Route path={'/register'} element={<Register />}/>
               <Route path={'/login/fail'} element={<LoginFail />} />
+              <Route path={'/login/success'} element={<LoginSuccess />} />
           </Routes>
       </BrowserRouter>
   );

@@ -10,19 +10,19 @@ import java.util.Collection;
 import java.util.Map;
 
 
-public class PrincipalDetails implements UserDetails, OAuth2User {
+public class CustomUserDetails implements UserDetails, OAuth2User {
 
     private User user;
     private Map<String, Object> attributes;
     private String attributeKey;
 
     // 일반 로그인
-    public PrincipalDetails(User user) {
+    public CustomUserDetails(User user) {
         this.user = user;
     }
 
     // OAuth 로그인
-    public PrincipalDetails(User user, Map<String, Object> attributes, String attributeKey) {
+    public CustomUserDetails(User user, Map<String, Object> attributes, String attributeKey) {
         this.user = user;
         this.attributes = attributes;
         this.attributeKey = attributeKey;

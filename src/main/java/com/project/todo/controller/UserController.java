@@ -14,14 +14,20 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/test")
-    public ResponseEntity<String> test() {
-        return ResponseEntity.ok().body("apiTest");
-    }
-
+    /**
+     * 회원가입
+     * @param reqRegister
+     * @return String
+     */
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody ReqRegister reqRegister) {
         int result = userService.register(reqRegister);
         return result == 0 ? ResponseEntity.ok().body("성공") : ResponseEntity.badRequest().body("실패");
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<TokenDto> login(@RequestBody ReqRegister reqRegister) {
+        TokenDto tokenDto = userService.login(reqRegister);
+        return null;
     }
 }

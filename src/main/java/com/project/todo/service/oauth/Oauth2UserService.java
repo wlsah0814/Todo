@@ -1,7 +1,7 @@
 package com.project.todo.service.oauth;
 
 import com.project.todo.config.security.Authority;
-import com.project.todo.config.security.PrincipalDetails;
+import com.project.todo.config.security.CustomUserDetails;
 import com.project.todo.dto.OAuth2UserInfo;
 import com.project.todo.entity.User;
 import com.project.todo.repository.UserRepository;
@@ -41,7 +41,7 @@ public class Oauth2UserService extends DefaultOAuth2UserService {
         OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfo.of(registrationId, attribute);
         User user = checkUserOrSave(oAuth2UserInfo, registrationId);
 
-        return new PrincipalDetails(user, attribute, userNameAttributeName);
+        return new CustomUserDetails(user, attribute, userNameAttributeName);
     }
 
     private User checkUserOrSave(OAuth2UserInfo oAuth2UserInfo, String registrationId) {
@@ -52,7 +52,7 @@ public class Oauth2UserService extends DefaultOAuth2UserService {
                         .password(passwordEncoder.encode("1234"))
                         .email(oAuth2UserInfo.email())
                         .role(Authority.ROLE_GUEST)
-                        .provider(oAuth2UserInfo.provider())
+                        .provider(registrationId)
                         .providerId(oAuth2UserInfo.providerId())
                         .build()
         ));

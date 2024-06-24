@@ -14,36 +14,36 @@ public record OAuth2UserInfo(String name, String email, String profile, String p
 
     public static OAuth2UserInfo of(String registrationId, Map<String, Object> attribute) {
         return switch (registrationId) {
-            case "google" -> ofGoogle(attribute);
-            case "naver" -> ofNaver(attribute);
-            case "kakao" -> ofKakao(attribute);
+            case "google" -> ofGoogle(attribute, registrationId);
+            case "naver" -> ofNaver(attribute, registrationId);
+            case "kakao" -> ofKakao(attribute, registrationId);
             default -> throw new UsernameNotFoundException("안돼 없어 돌아가");
         };
     }
 
-    private static OAuth2UserInfo ofGoogle(Map<String, Object> attributes) {
+    private static OAuth2UserInfo ofGoogle(Map<String, Object> attributes, String registrationId) {
         log.info("GOOGLE={}", attributes);
         return OAuth2UserInfo.builder()
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
                 .providerId((String) attributes.get("sub"))
-                .provider("google")
+                .provider(registrationId)
                 .build();
     }
 
-    private static OAuth2UserInfo ofNaver(Map<String, Object> attributes) {
+    private static OAuth2UserInfo ofNaver(Map<String, Object> attributes, String registrationId) {
         log.info("NAVER={}", attributes);
         Map<String, Object> account = (Map<String, Object>) attributes.get("response");
         return OAuth2UserInfo.builder()
                 .name((String) account.get("name"))
                 .email((String) account.get("email"))
                 .providerId((String) account.get("id"))
-                .provider("naver")
+                .provider(registrationId)
                 .build();
 
     }
 
-    private static OAuth2UserInfo ofKakao(Map<String, Object> attributes) {
+    private static OAuth2UserInfo ofKakao(Map<String, Object> attributes, String registrationId) {
         log.info("KAKAO={}", attributes);
         Map<String, Object> account = (Map<String, Object>) attributes.get("kakao_account");
         Map<String, Object> profile = (Map<String, Object>) account.get("profile");
@@ -51,7 +51,8 @@ public record OAuth2UserInfo(String name, String email, String profile, String p
                 .name((String) profile.get("nickname"))
                 .email((String) account.get("email"))
                 .providerId(String.valueOf(attributes.get("id")))
-                .provider("kakao")
+                .provider(registrationId)
                 .build();
     }
 }
+

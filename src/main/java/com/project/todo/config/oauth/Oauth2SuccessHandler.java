@@ -2,7 +2,7 @@ package com.project.todo.config.oauth;
 
 import com.project.todo.config.jwt.TokenProvider;
 import com.project.todo.config.security.Authority;
-import com.project.todo.config.security.PrincipalDetails;
+import com.project.todo.config.security.CustomUserDetails;
 import com.project.todo.dto.TokenDto;
 import com.project.todo.entity.User;
 import jakarta.servlet.ServletException;
@@ -27,7 +27,7 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         log.info("OAuth2 Login Success");
         /* 1. User 객체 생성 */
-        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        CustomUserDetails principalDetails = (CustomUserDetails) authentication.getPrincipal();
         User user = principalDetails.getUser();
         log.info("user={}", user);
 
