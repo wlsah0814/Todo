@@ -49,9 +49,8 @@ public class Oauth2UserService extends DefaultOAuth2UserService {
         return user.orElseGet(() -> userRepository.save(
                 User.builder()
                         .username(oAuth2UserInfo.name())
-                        .password(passwordEncoder.encode("1234"))
                         .email(oAuth2UserInfo.email())
-                        .role(Authority.ROLE_GUEST)
+                        .role(Authority.ROLE_USER)
                         .provider(registrationId)
                         .providerId(oAuth2UserInfo.providerId())
                         .build()

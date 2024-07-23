@@ -6,6 +6,7 @@ import {Register} from "./components/login/Register";
 import {LoginFail} from "./components/login/LoginFail";
 import {Home} from "./components/home/Home";
 import {LoginSuccess} from "./components/login/LoginSuccess";
+import {Connected} from "./components/login/connected";
 
 export const App = () => {
   return (
@@ -16,6 +17,7 @@ export const App = () => {
               <Route path={'/register'} element={<Register />}/>
               <Route path={'/login/fail'} element={<LoginFail />} />
               <Route path={'/login/success'} element={<LoginSuccess />} />
+              <Route path={'/account/connected'} element={<Connected />} />
           </Routes>
       </BrowserRouter>
   );

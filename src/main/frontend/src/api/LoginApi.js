@@ -17,3 +17,14 @@ export const register = async (registerParam) => {
             return error.response.status;
         })
 }
+
+// 계정 연동
+export const accountConnected = async (connectedData) => {
+    return await axios.put("/user/account/connected", connectedData)
+        .then((response) => {
+            return response.status;
+        })
+        .catch((error) => {
+            return error.response.status;
+        })
+}
