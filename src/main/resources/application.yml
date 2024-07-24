@@ -4,8 +4,11 @@ server:
 
 # oauth yml include
 spring:
+  config:
+    import: "classpath:application-jwt.yml"
   profiles:
     active: "oauth"
+
 
 # DB 접속 정보
   datasource:
@@ -24,7 +27,3 @@ spring:
     show-sql: 'true'
     hibernate:
       ddl-auto: create
-
-# JWT Secret 토큰
-jwt:
-  secret: 6beae45f31fdcd475db5a6d25dff136a3c6167a9d25bab73915963f0c20367cb

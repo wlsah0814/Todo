@@ -41,3 +41,4 @@ out/
 ### spring 설정 파일 + react 환경변수 ###
 src/main/frontend/.env
 src/main/resources/application-oauth.yml
+src/main/resources/application-jwt.yml

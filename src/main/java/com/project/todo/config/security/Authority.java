@@ -12,7 +12,7 @@ public enum Authority {
         this.role = role;
     }
 
-    String getValue() {
+    public String getValue() {
         return role;
     }
 }

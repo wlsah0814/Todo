@@ -3,11 +3,13 @@ package com.project.todo.service.oauth;
 import com.project.todo.config.security.Authority;
 import com.project.todo.config.security.CustomUserDetails;
 import com.project.todo.dto.OAuth2UserInfo;
+import com.project.todo.entity.Oauth2User;
 import com.project.todo.entity.User;
 import com.project.todo.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -15,8 +17,11 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
+
+import static com.fasterxml.jackson.databind.type.LogicalType.Collection;
 
 @RequiredArgsConstructor
 @Service
@@ -41,7 +46,14 @@ public class Oauth2UserService extends DefaultOAuth2UserService {
         OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfo.of(registrationId, attribute);
         User user = checkUserOrSave(oAuth2UserInfo, registrationId);
 
-        return new CustomUserDetails(user, attribute, userNameAttributeName);
+        return new Oauth2User(
+                Collections.singleton(new SimpleGrantedAuthority(user.getRole().getValue())),
+                oAuth2UserInfo.attribute(),
+                userNameAttributeName,
+                user.getEmail(),
+                user.getProvider(),
+                user.getProviderId()
+        );
     }
 
     private User checkUserOrSave(OAuth2UserInfo oAuth2UserInfo, String registrationId) {

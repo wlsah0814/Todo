@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Builder
 @Slf4j
-public record OAuth2UserInfo(String name, String email, String profile, String providerId, String provider) {
+public record OAuth2UserInfo(String name, String email, String profile, String providerId, String provider, Map<String, Object> attribute) {
 
     public static OAuth2UserInfo of(String registrationId, Map<String, Object> attribute) {
         return switch (registrationId) {
@@ -28,6 +28,7 @@ public record OAuth2UserInfo(String name, String email, String profile, String p
                 .email((String) attributes.get("email"))
                 .providerId((String) attributes.get("sub"))
                 .provider(registrationId)
+                .attribute(attributes)
                 .build();
     }
 
@@ -39,6 +40,7 @@ public record OAuth2UserInfo(String name, String email, String profile, String p
                 .email((String) account.get("email"))
                 .providerId((String) account.get("id"))
                 .provider(registrationId)
+                .attribute(attributes)
                 .build();
 
     }
@@ -52,6 +54,7 @@ public record OAuth2UserInfo(String name, String email, String profile, String p
                 .email((String) account.get("email"))
                 .providerId(String.valueOf(attributes.get("id")))
                 .provider(registrationId)
+                .attribute(attributes)
                 .build();
     }
 }
